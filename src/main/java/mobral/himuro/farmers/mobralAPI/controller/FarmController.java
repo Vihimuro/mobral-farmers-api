@@ -1,5 +1,6 @@
 package mobral.himuro.farmers.mobralAPI.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mobral.himuro.farmers.mobralAPI.domain.Farm;
 import mobral.himuro.farmers.mobralAPI.dto.FarmPostRequestBody;
@@ -28,7 +29,7 @@ public class FarmController {
     }
 
     @PostMapping
-    public ResponseEntity<Farm> save(@RequestBody FarmPostRequestBody farmPostRequestBody) {
+    public ResponseEntity<Farm> save(@RequestBody @Valid FarmPostRequestBody farmPostRequestBody) {
         return new ResponseEntity<>(farmService.save(farmPostRequestBody), HttpStatus.CREATED);
     }
 }

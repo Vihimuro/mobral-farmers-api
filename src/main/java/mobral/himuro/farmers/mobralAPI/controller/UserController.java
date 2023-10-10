@@ -1,5 +1,6 @@
 package mobral.himuro.farmers.mobralAPI.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mobral.himuro.farmers.mobralAPI.domain.User;
 import mobral.himuro.farmers.mobralAPI.dto.UserPostRequestBody;
@@ -23,7 +24,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> save(@RequestBody UserPostRequestBody userPostRequestBody) {
+    public ResponseEntity<User> save(@RequestBody @Valid UserPostRequestBody userPostRequestBody) {
         return new ResponseEntity<>(userService.save(userPostRequestBody), HttpStatus.CREATED);
     }
 }
