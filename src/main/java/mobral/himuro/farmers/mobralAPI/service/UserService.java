@@ -3,6 +3,7 @@ package mobral.himuro.farmers.mobralAPI.service;
 import lombok.RequiredArgsConstructor;
 import mobral.himuro.farmers.mobralAPI.domain.User;
 import mobral.himuro.farmers.mobralAPI.dto.UserPostRequestBody;
+import mobral.himuro.farmers.mobralAPI.exception.BadRequestException;
 import mobral.himuro.farmers.mobralAPI.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class UserService {
 
     public User findById (long id){
         return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new BadRequestException("User not found"));
     }
 
     public User save(UserPostRequestBody userPostRequestBody) {
