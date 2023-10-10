@@ -1,0 +1,29 @@
+package mobral.himuro.farmers.mobralAPI.service;
+
+import lombok.RequiredArgsConstructor;
+import mobral.himuro.farmers.mobralAPI.domain.User;
+import mobral.himuro.farmers.mobralAPI.dto.UserPostRequestBody;
+import mobral.himuro.farmers.mobralAPI.repository.UserRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class UserService {
+
+    private final UserRepository userRepository;
+    public List<User> listAll(){
+        return userRepository.findAll();
+    }
+
+    public User findById (long id){
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    public User save(UserPostRequestBody userPostRequestBody) {
+        User user = User.builder().nome(userPostRequestBody.getNome()).build();
+        return userRepository.save(user);
+    }
+}
