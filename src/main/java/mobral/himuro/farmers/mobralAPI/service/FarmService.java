@@ -27,8 +27,8 @@ public class FarmService {
         return farmRepository.save(farm);
     }
 
-    public List<Farm> listByUser(Long cdIdUser) {
+    public List<Farm> findAllByUserId(Long cdIdUser) {
         User user = userService.findById(cdIdUser);
-        return farmRepository.findAllUserFarms(user);
+        return farmRepository.findAllByUser(user);
     }
 }

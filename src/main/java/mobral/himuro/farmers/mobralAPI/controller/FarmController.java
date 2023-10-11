@@ -24,8 +24,8 @@ public class FarmController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<List<Farm>> listByUser(@PathVariable long id){
-        return ResponseEntity.ok(farmService.listByUser(id));
+    public ResponseEntity<List<Farm>> findAllByUser(@PathVariable long id){
+        return ResponseEntity.ok(farmService.findAllByUserId(id));
     }
 
     @PostMapping

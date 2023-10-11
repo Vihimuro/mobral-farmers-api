@@ -24,7 +24,7 @@ public class UserService {
     }
 
     public User save(UserPostRequestBody userPostRequestBody) {
-        User user = User.builder().nome(userPostRequestBody.getNome()).build();
+        var user = User.builder().nome(userPostRequestBody.getNome()).build();
         return userRepository.save(user);
     }
 }
