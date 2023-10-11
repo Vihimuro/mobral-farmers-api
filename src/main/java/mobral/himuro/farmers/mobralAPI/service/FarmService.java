@@ -6,6 +6,7 @@ import mobral.himuro.farmers.mobralAPI.domain.User;
 import mobral.himuro.farmers.mobralAPI.dto.FarmPostRequestBody;
 import mobral.himuro.farmers.mobralAPI.repository.FarmRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,6 +19,8 @@ public class FarmService {
         return farmRepository.findAll();
     }
 
+
+    @Transactional
     public Farm save(FarmPostRequestBody farmPostRequestBody) {
         User user = userService.findById(farmPostRequestBody.getCdIdUser());
         Farm farm = Farm.builder()

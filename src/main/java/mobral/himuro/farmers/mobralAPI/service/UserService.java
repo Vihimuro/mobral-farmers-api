@@ -6,6 +6,7 @@ import mobral.himuro.farmers.mobralAPI.dto.UserPostRequestBody;
 import mobral.himuro.farmers.mobralAPI.exception.BadRequestException;
 import mobral.himuro.farmers.mobralAPI.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class UserService {
                 .orElseThrow(() -> new BadRequestException("User not found"));
     }
 
+    @Transactional
     public User save(UserPostRequestBody userPostRequestBody) {
         var user = User.builder().nome(userPostRequestBody.getNome()).build();
         return userRepository.save(user);
