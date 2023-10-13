@@ -29,6 +29,5 @@ jobs:
           ECR_REPOSITORY: mobral_himuro
           IMAGE_TAG: latest
         run: |
-          mvn install
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
