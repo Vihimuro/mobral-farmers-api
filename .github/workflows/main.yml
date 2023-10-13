@@ -33,4 +33,4 @@ jobs:
         run: |
           docker build -t $ECR_REPOSITORY .
           docker tag $ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push public.ecr.aws/f7w3j0v5/$ECR_REPOSITORY:$IMAGE_TAG
