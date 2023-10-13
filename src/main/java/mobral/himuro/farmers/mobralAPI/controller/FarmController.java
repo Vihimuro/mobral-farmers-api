@@ -23,6 +23,7 @@ public class FarmController {
         return ResponseEntity.ok(farmService.listAll(pageable));
     }
 
+
     @GetMapping(path = "/{id}")
     public ResponseEntity<Page<Farm>> findAllByUser(@PathVariable long id, Pageable pageable){
         return ResponseEntity.ok(farmService.findAllByUserId(id, pageable));
