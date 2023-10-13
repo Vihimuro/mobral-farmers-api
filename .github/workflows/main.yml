@@ -31,5 +31,6 @@ jobs:
           ECR_REPOSITORY: mobral_himuro
           IMAGE_TAG: latest
         run: |
+          aws ecr-public get-login-password --region sa-east-1 | docker login --username AWS --password-stdin public.ecr.aws/f7w3j0v5
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
