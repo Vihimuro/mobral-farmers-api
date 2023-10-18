@@ -31,6 +31,7 @@ public class FarmController {
 
     @PostMapping
     public ResponseEntity<Farm> save(@RequestBody @Valid FarmPostRequestBody farmPostRequestBody) {
+        System.out.println(farmPostRequestBody);
         return new ResponseEntity<>(farmService.save(farmPostRequestBody), HttpStatus.CREATED);
     }
 }
