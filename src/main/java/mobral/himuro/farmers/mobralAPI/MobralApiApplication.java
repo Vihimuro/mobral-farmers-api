@@ -1,6 +1,5 @@
 package mobral.himuro.farmers.mobralAPI;
 
-import com.bedatadriven.jackson.datatype.jts.JtsModule;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -16,10 +15,5 @@ public class MobralApiApplication {
 	@Bean
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
-	}
-
-	@Bean
-	public JtsModule jtsModule() {
-		return new JtsModule();
 	}
 }

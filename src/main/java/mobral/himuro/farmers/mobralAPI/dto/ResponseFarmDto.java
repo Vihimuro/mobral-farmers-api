@@ -1,9 +1,6 @@
 package mobral.himuro.farmers.mobralAPI.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import mobral.himuro.farmers.mobralAPI.domain.Farm;
 
 import java.util.List;
@@ -12,6 +9,8 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@Data
 public class ResponseFarmDto {
     private Farm farm;
     private List<FieldDto> fields;

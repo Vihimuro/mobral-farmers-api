@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mobral.himuro.farmers.mobralAPI.domain.Farm;
 import mobral.himuro.farmers.mobralAPI.dto.FarmPostRequestBody;
+import mobral.himuro.farmers.mobralAPI.dto.ResponseFarmDto;
 import mobral.himuro.farmers.mobralAPI.service.FarmService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +31,7 @@ public class FarmController {
     }
 
     @PostMapping
-    public ResponseEntity<Farm> save(@RequestBody @Valid FarmPostRequestBody farmPostRequestBody) {
+    public ResponseEntity<ResponseFarmDto> save(@RequestBody @Valid FarmPostRequestBody farmPostRequestBody) {
         System.out.println(farmPostRequestBody);
         return new ResponseEntity<>(farmService.save(farmPostRequestBody), HttpStatus.CREATED);
     }
