@@ -9,6 +9,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 public class FieldDto implements Serializable {
     private long id;
     private long cdIdFarm;

@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mobral.himuro.farmers.mobralAPI.domain.Farm;
 import mobral.himuro.farmers.mobralAPI.dto.FarmPostRequestBody;
+import mobral.himuro.farmers.mobralAPI.dto.FeatureCollectionJson;
 import mobral.himuro.farmers.mobralAPI.dto.ResponseFarmDto;
 import mobral.himuro.farmers.mobralAPI.service.FarmService;
 import org.springframework.data.domain.Page;
@@ -34,5 +35,14 @@ public class FarmController {
     public ResponseEntity<ResponseFarmDto> save(@RequestBody @Valid FarmPostRequestBody farmPostRequestBody) {
         System.out.println(farmPostRequestBody);
         return new ResponseEntity<>(farmService.save(farmPostRequestBody), HttpStatus.CREATED);
+    }
+
+    @GetMapping(path = "/{id}/fields")
+    public ResponseEntity<FeatureCollectionJson> getFieldsByFarm(@PathVariable long id){
+        FeatureCollectionJson featureCollectionJson = farmService.getFieldsByFarm(id);
+        if(featureCollectionJson == null) {
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        }
+        return ResponseEntity.ok(farmService.getFieldsByFarm(id));
     }
 }

@@ -1,9 +1,7 @@
 package mobral.himuro.farmers.mobralAPI.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-import mobral.himuro.farmers.mobralAPI.domain.Farm;
-
-import java.util.List;
 
 @Setter
 @Getter
@@ -12,6 +10,8 @@ import java.util.List;
 @Builder
 @Data
 public class ResponseFarmDto {
-    private Farm farm;
-    private List<FieldDto> fields;
+    @JsonProperty("cd_id_user")
+    private long cdIdUser;
+    @JsonProperty("featureCollection")
+    private FeatureCollectionJson featureCollectionJson;
 }

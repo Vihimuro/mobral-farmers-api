@@ -6,10 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import mobral.himuro.farmers.mobralAPI.domain.Farm;
 import mobral.himuro.farmers.mobralAPI.domain.User;
-import mobral.himuro.farmers.mobralAPI.dto.FarmPostRequestBody;
-import mobral.himuro.farmers.mobralAPI.dto.FieldDto;
-import mobral.himuro.farmers.mobralAPI.dto.FieldsPostBody;
-import mobral.himuro.farmers.mobralAPI.dto.ResponseFarmDto;
+import mobral.himuro.farmers.mobralAPI.dto.*;
+import mobral.himuro.farmers.mobralAPI.exception.BadRequestException;
 import mobral.himuro.farmers.mobralAPI.repository.FarmRepository;
 import org.n52.jackson.datatype.jts.JtsModule;
 import org.springframework.core.ParameterizedTypeReference;
@@ -22,8 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class FarmService {
@@ -35,7 +31,6 @@ public class FarmService {
 
     @Transactional
     public ResponseFarmDto save(FarmPostRequestBody farmPostRequestBody) {
-        try{
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JtsModule());
             mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
@@ -49,29 +44,40 @@ public class FarmService {
 
             FieldsPostBody fields = FieldsPostBody.builder()
                     .cdIdFazenda(savedFarm.getCdId())
-                    .featuresCollection(farmPostRequestBody.getFeaturesCollection())
+                    .featureCollection(farmPostRequestBody.getFeatureCollection())
                     .build();
 
-            System.out.println("fields: \n idFazenda: " +fields.getCdIdFazenda()+
-                    "\n featuresCollection: " +fields.getFeaturesCollection());
-            ResponseEntity<List<FieldDto>> fieldDtoList = new RestTemplate().exchange("http://localhost:8980/fields",
+            ResponseEntity<FeatureCollectionJson> fieldCollectionResponse = new RestTemplate().exchange("http://localhost:8980/fields",
                     HttpMethod.POST,
                     new HttpEntity<>(fields),
                     new ParameterizedTypeReference<>() {}
             );
-            ResponseFarmDto responseFarmDto = new ResponseFarmDto().builder()
-                    .farm(savedFarm)
-                    .fields(fieldDtoList.getBody())
+
+            ResponseFarmDto responseFarmDto = ResponseFarmDto.builder()
+                    .cdIdUser(savedFarm.getUser().getCdId())
+                    .featureCollectionJson(fieldCollectionResponse.getBody())
                     .build();
             return responseFarmDto;
-        }catch (RuntimeException e){
-            throw new RuntimeException(e);
-        }
     }
 
+    public Farm findById(Long cdIdFarm) {
+        return farmRepository.findById(cdIdFarm)
+                .orElseThrow(() -> new BadRequestException("Farm not found"));
+    }
     public Page<Farm> findAllByUserId(Long cdIdUser, Pageable pageable) {
         User user = userService.findById(cdIdUser);
         return farmRepository.findAllByUser(user, pageable);
+    }
+
+    public FeatureCollectionJson getFieldsByFarm(Long cdIdFarm) {
+        Farm farm = findById(cdIdFarm);
+        ResponseEntity<FeatureCollectionJson> fieldCollectionResponse = new RestTemplate()
+                .exchange("http://localhost:8980/fields/farm/" + farm.getCdId(),
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<>() {}
+        );
+        return fieldCollectionResponse.getBody();
     }
 
 }
